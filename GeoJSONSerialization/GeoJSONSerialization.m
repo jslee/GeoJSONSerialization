@@ -26,6 +26,8 @@
 
 NSString * const GeoJSONSerializationErrorDomain = @"com.geojson.serialization.error";
 
+static id MKShapeFromGeoJSONFeature(NSDictionary *feature);
+
 static inline double CLLocationCoordinateNormalizedLatitude(double latitude) {
     return fmod((latitude + 90.0f), 180.0f) - 90.0f;
 }
@@ -200,6 +202,31 @@ static NSArray * MKPolygonsFromGeoJSONMultiPolygonFeature(NSDictionary *feature)
     return [NSArray arrayWithArray:mutablePolylines];
 }
 
+static NSArray * MKGeometriesFromGeoJSONGeometryCollection(NSDictionary *feature) {
+    NSDictionary *geometry = feature[@"geometry"];
+    
+    NSCParameterAssert([geometry[@"type"] isEqualToString:@"GeometryCollection"]);
+
+    NSDictionary *properties = [NSDictionary dictionaryWithDictionary:feature[@"properties"]];
+    NSString* fid = feature[@"id"];
+
+    NSMutableArray *mutableGeometries = [NSMutableArray array];
+
+    NSArray* geometries = geometry[@"geometries"];
+    for (NSDictionary *geom in geometries) {
+        NSDictionary *subFeature = @{
+                                     @"type": @"Feature",
+                                     @"id": fid,
+                                     @"geometry": geom,
+                                     @"properties": properties
+                                     };
+        
+        [mutableGeometries addObject:MKShapeFromGeoJSONFeature(subFeature)];
+    }
+    
+    return [NSArray arrayWithArray:mutableGeometries];
+}
+
 #pragma mark -
 
 static id MKShapeFromGeoJSONFeature(NSDictionary *feature) {
@@ -219,6 +246,8 @@ static id MKShapeFromGeoJSONFeature(NSDictionary *feature) {
         return MKPolylinesFromGeoJSONMultiLineStringFeature(feature);
     } else if ([type isEqualToString:@"MultiPolygon"]) {
         return MKPolygonsFromGeoJSONMultiPolygonFeature(feature);
+    } else if ([type isEqualToString:@"GeometryCollection"]) {
+        return MKGeometriesFromGeoJSONGeometryCollection(feature);
     }
 
     return nil;

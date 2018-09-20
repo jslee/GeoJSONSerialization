@@ -228,6 +228,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Mattt Thompson";
 				TargetAttributes = {
+					F8A08C5C18E3377E00258B27 = {
+						DevelopmentTeam = 3SP4NHKW73;
+					};
 					F8A08C7718E3377E00258B27 = {
 						TestTargetID = F8A08C5C18E3377E00258B27;
 					};
@@ -397,6 +400,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = 3SP4NHKW73;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iOS Example/Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/iOS Example/Info.plist";
@@ -411,6 +415,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = 3SP4NHKW73;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iOS Example/Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/iOS Example/Info.plist";
